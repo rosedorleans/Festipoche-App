@@ -12,7 +12,6 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  TextEditingController tecName = TextEditingController();
   TextEditingController tecEmail = TextEditingController();
   TextEditingController tecFestivalPass = TextEditingController();
   TextEditingController tecPassword = TextEditingController();
@@ -34,17 +33,11 @@ class _RegisterPageState extends State<RegisterPage> {
       children: [
         const Spacer(),
         TextField(
-          controller: tecName,
-          textInputAction: TextInputAction.next,
-          keyboardType: TextInputType.emailAddress,
-          decoration: const InputDecoration(
-              label: Text('Name'), prefixIcon: Icon(Icons.person)),
-        ), TextField(
           controller: tecEmail,
           textInputAction: TextInputAction.next,
           keyboardType: TextInputType.emailAddress,
           decoration: const InputDecoration(
-              label: Text('Adresse-mail'), prefixIcon: Icon(Icons.email)),
+              label: Text('E-mail'), prefixIcon: Icon(Icons.email)),
         ), TextField(
           controller: tecFestivalPass,
           textInputAction: TextInputAction.next,
@@ -63,14 +56,17 @@ class _RegisterPageState extends State<RegisterPage> {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: ElevatedButton(
-              onPressed: _onRegister, child: const Text('S\'ENREGISTER')),
+              onPressed: _onRegister,
+              child: const Text('S\'ENREGISTER')
+          ),
         ),
         const Spacer(),
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: ElevatedButton(
               onPressed: _onLogin,
-              child: const Text('DÉJA UN COMPTE ? S\'IDENTIFIER')),
+              child: const Text('DÉJA UN COMPTE ? S\'IDENTIFIER')
+          ),
         ),
         const Spacer()
       ],
@@ -78,11 +74,9 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   _onRegister() async {
-    print('username : ${tecName.text}');
     print('email : ${tecEmail.text}');
     print('password : ${tecPassword.text}');
     print('password : ${tecFestivalPass.text}');
-    String name = tecName.text;
     String email = tecEmail.text;
     String festivalPass = tecFestivalPass.text;
     String password = tecPassword.text;
@@ -90,7 +84,6 @@ class _RegisterPageState extends State<RegisterPage> {
     var responseRegister = await http.post(
         Uri.parse('http://127.0.0.1:8000/api/register'),
         body: {
-          "name": name,
           "email": email,
           "festival_pass": festivalPass,
           "password": password,
@@ -104,7 +97,6 @@ class _RegisterPageState extends State<RegisterPage> {
 
         tecPassword.clear();
         tecFestivalPass.clear();
-        tecName.clear();
         tecEmail.clear();
         _onLogin();
       } else if (responseRegister.statusCode != null) {

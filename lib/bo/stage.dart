@@ -1,18 +1,21 @@
-class Event {
+class Stage {
   final String id;
-  final String nom;
-  final String contact;
+  final String name;
+  final String festival;
+  final String events;
 
-  Event({
+  Stage({
     required this.id,
-    required this.nom,
-    required this.contact
+    required this.name,
+    required this.festival,
+    required this.events
   });
-  factory Event.fromJson(Map<String, dynamic> json) {
-    return Event(
+  factory Stage.fromJson(Map<String, dynamic> json) {
+    return Stage(
         id: json['id'],
-        nom: json['nom'],
-        contact: json['contact']
+        name: json['name'],
+        festival: json['festival'],
+        events: json['events']
     );
   }
 }

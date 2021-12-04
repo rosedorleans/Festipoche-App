@@ -1,18 +1,24 @@
-class Artist {
+class User {
   final String id;
-  final String name;
-  final String event;
+  final String email;
+  final String roles;
+  final String password;
+  final String festivalPass;
 
-  Artist({
+  User({
     required this.id,
-    required this.name,
-    required this.event
+    required this.email,
+    required this.roles,
+    required this.password,
+    required this.festivalPass
   });
-  factory Artist.fromJson(Map<String, dynamic> json) {
-    return Artist(
+  factory User.fromJson(Map<String, dynamic> json) {
+    return User(
         id: json['id'],
-        name: json['name'],
-        event: json['event']
+        email: json['email'],
+        roles: json['roles'],
+        password: json['password'],
+        festivalPass: json['festivalPass'],
     );
   }
 }

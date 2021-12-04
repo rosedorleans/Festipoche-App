@@ -1,4 +1,4 @@
-import 'package:festipoche/screens/public/auth.dart';
+import 'package:festipoche/screens/public/login.dart';
 import 'package:festipoche/screens/public/register.dart';
 import 'package:flutter/material.dart';
 
@@ -14,9 +14,13 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      home: auth(),
+      theme: ThemeData(
+        primarySwatch: Colors.indigo,
+      ),
+      home: LoginPage(),
       routes: <String, WidgetBuilder>{
         '/register': (BuildContext context) => RegisterPage(),
+        '/login': (BuildContext context) => LoginPage(),
       },
       initialRoute: '/register',
     );

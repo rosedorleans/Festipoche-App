@@ -1,18 +1,24 @@
-class Artist {
+class Event {
   final String id;
-  final String nom;
-  final String contact;
+  final String start_datetime;
+  final String end_datetime;
+  final String stage;
+  final String artists;
 
-  Artist({
+  Event({
     required this.id,
-    required this.nom,
-    required this.contact
+    required this.start_datetime,
+    required this.end_datetime,
+    required this.stage,
+    required this.artists
   });
-  factory Artist.fromJson(Map<String, dynamic> json) {
-    return Artist(
+  factory Event.fromJson(Map<String, dynamic> json) {
+    return Event(
         id: json['id'],
-        nom: json['nom'],
-        contact: json['contact']
+        start_datetime: json['start_datetime'],
+        end_datetime: json['end_datetime'],
+        stage: json['stage'],
+        artists: json['artists']
     );
   }
 }

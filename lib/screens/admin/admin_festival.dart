@@ -3,54 +3,64 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:festipoche/bo/artist.dart';
+import 'package:festipoche/bo/festival.dart';
 import 'package:http/http.dart' as http;
 
-class AdminArtist extends StatefulWidget {
-  const AdminArtist({Key? key}) : super(key: key);
+class AdminFestival extends StatefulWidget {
+  const AdminFestival({Key? key}) : super(key: key);
 
   @override
-  _AdminArtistState createState() => _AdminArtistState();
+  _AdminFestivalState createState() => _AdminFestivalState();
 }
 
-class _AdminArtistState extends State<AdminArtist> {
-  late List<Artist> listeArtists = [];
+class _AdminFestivalState extends State<AdminFestival> {
+  late List<Festival> listeFestivals = [];
 
-  TextEditingController tecArtist = TextEditingController();
+  TextEditingController tecFestival = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    _fetchArtist();
+    _fetchFestival();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Liste des Artistes")),
+      appBar: AppBar(title: const Text("Liste des Festivales")),
       body: Column(
         children: [
           Expanded(
             child: ListView.separated(
                 separatorBuilder: (context, index) => const Divider(),
-                itemCount: listeArtists.length,
+                itemCount: listeFestivals.length,
                 itemBuilder: (context, index) {
                   return ListTile(
                     title: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Text(listeArtists[index].name.toString(),
+                        Text(listeFestivals[index].name.toString(),
                             style: const TextStyle(
 
                             )),
                         const Spacer(flex: 1,),
-                        Text("Evénement : "+ listeArtists[index].event.toString(),
+                        Text("Début : "+ listeFestivals[index].start_date.toString(),
+                            style: const TextStyle(
+                              fontSize: 15.0,
+                            )),
+                        const Spacer(flex: 10),
+                        Text("Fin : "+ listeFestivals[index].end_date.toString(),
+                            style: const TextStyle(
+                              fontSize: 15.0,
+                            )),
+                        const Spacer(flex: 10),
+                        Text("Scènes : "+ listeFestivals[index].stages.toString(),
                             style: const TextStyle(
                               fontSize: 15.0,
                             )),
                         const Spacer(flex: 10),
                         IconButton(
-                            onPressed: () => _deleteArtist(listeArtists[index].id.toString()),
+                            onPressed: () => _deleteFestival(listeFestivals[index].id.toString()),
                             icon: const Icon(Icons.delete)
                         ),
                       ],
@@ -63,32 +73,32 @@ class _AdminArtistState extends State<AdminArtist> {
     );
   }
 
-  _fetchArtist() async {
+  _fetchFestival() async {
     final response = await http
-        .get(Uri.parse('http://localhost:8000/artist'));
+        .get(Uri.parse('http://localhost:8000/festival'));
 
     if (response.statusCode == 200) {
 
-      var mapArtists = jsonDecode(response.body);
-      List<Artist> artists = List<Artist>.from(
-          mapArtists.map((artists) => Artist.fromJson(artists))
+      var mapFestivals = jsonDecode(response.body);
+      List<Festival> festivals = List<Festival>.from(
+          mapFestivals.map((festivals) => Festival.fromJson(festivals))
       );
-      _onReloadListView(artists);
+      _onReloadListView(festivals);
     } else {
       throw Exception('Erreur de chargement des données.');
     }
   }
 
-  _onReloadListView(List<Artist> artists) {
+  _onReloadListView(List<Festival> festivals) {
     setState(() {
-      listeArtists = artists;
-      tecArtist.clear();
+      listeFestivals = festivals;
+      tecFestival.clear();
     });
   }
 
-  _deleteArtist(String id) async {
+  _deleteFestival(String id) async {
     final response = await http
-        .delete(Uri.parse('http://localhost:8000/artist'+ id));
+        .delete(Uri.parse('http://localhost:8000/festival'+ id));
 
     if (response.statusCode == 200) {
       Fluttertoast.showToast(
@@ -97,7 +107,7 @@ class _AdminArtistState extends State<AdminArtist> {
           gravity: ToastGravity.CENTER,
           timeInSecForIosWeb: 4
       );
-      _fetchArtist();
+      _fetchFestival();
     }
 
   }
